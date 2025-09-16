@@ -1,3 +1,5 @@
+import app.model.Frutas;
+
 import javax.swing.JOptionPane;
 
 public class Menu {
@@ -10,7 +12,7 @@ public class Menu {
     public void mostrarMenu() {
         boolean continua = true;
         while (continua) {
-            String menu = "--- CRUD de Frutas ---\n"
+            String menu = "--- CRUD de app.model.Frutas ---\n"
                     + "1. Crear fruta\n"
                     + "2. Listar todas las frutas\n"
                     + "3. Buscar fruta por ID\n"

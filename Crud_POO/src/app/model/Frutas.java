@@ -1,3 +1,5 @@
+package app.model;
+
 public class Frutas {
     private static int aunmentId = 1;
 

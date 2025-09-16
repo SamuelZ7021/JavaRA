@@ -1,4 +1,5 @@
-import javax.swing.*;
+import app.model.Frutas;
+
 import java.util.ArrayList;
 
 public class GestionFrutas {
@@ -22,7 +23,7 @@ public class GestionFrutas {
         if (listaFrutas.isEmpty()) {
             return "La lista de frutas esta vacia";
         }
-        StringBuilder lista = new StringBuilder("--- Lista de Frutas ---\n");
+        StringBuilder lista = new StringBuilder("--- Lista de app.model.Frutas ---\n");
         for (Frutas fruta : this.listaFrutas) {
             lista.append(fruta.toString()).append("\n---------------------\n");
         }
