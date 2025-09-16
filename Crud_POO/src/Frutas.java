@@ -34,10 +34,12 @@ public class Frutas {
         return pesoKg;
     }
 
-    public void setPesoKg(double pesoKg) {
+    public boolean setPesoKg(double pesoKg) {
         if (pesoKg > 0){
             this.pesoKg = pesoKg;
+            return true;
         }
+        return false;
     }
 
     public String getColor() {
@@ -53,10 +55,12 @@ public class Frutas {
 
     }
 
-    public void setPrecio(double precio) {
+    public boolean setPrecio(double precio) {
         if (precio >= 0){
             this.precio = precio;
+            return true;
         }
+        return false;
     }
 
     @Override

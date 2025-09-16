@@ -5,9 +5,12 @@ public class GestionFrutas {
     private ArrayList<Frutas> listaFrutas = new ArrayList<>();
 
     public boolean agregarFruta(String nombre,  String color, double pesoKg, double precio) {
+        if (precio < 0 || pesoKg <= 0) {
+            return false;
+        }
         for (Frutas fruta : listaFrutas) {
             if (fruta.getNombre().equalsIgnoreCase(nombre)) {
-                return false;
+                return false; // La fruta ya existe
             }
         }
         Frutas nuevaFruta = new Frutas(precio, color, pesoKg, nombre);
@@ -38,8 +41,7 @@ public class GestionFrutas {
         Frutas frutaActualizada = buscarFrutasPorId(id);
 
         if (frutaActualizada != null) {
-            frutaActualizada.setPrecio(nuevoPrecio);
-            return true;
+            return frutaActualizada.setPrecio(nuevoPrecio);
         } else{
             return false;
         }
