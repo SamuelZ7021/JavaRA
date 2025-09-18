@@ -13,24 +13,12 @@ public class Asignatura {
         return asigNombre;
     }
 
-    public void setAsigNombre(String asigNombre) {
-        this.asigNombre = asigNombre;
-    }
-
     public double getNota() {
         return nota;
     }
 
     public void setNota(double nota) {
         this.nota = nota;
-    }
-
-    @Override
-    public String toString() {
-        return "Asignatura" +
-                "asigNombre:'" + asigNombre + '\'' +
-                ", nota:" + nota
-                ;
     }
 
     public String estado() {
