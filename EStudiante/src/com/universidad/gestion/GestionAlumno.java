@@ -81,8 +81,8 @@ public class GestionAlumno {
 
         StringBuilder lista = new StringBuilder("--- Lista de Alumnos Registrados ---\n");
         for (Alumno alumno : alumnos) {
-            lista.append("ID: ").append(alumno.getId())
-                 .append(", Nombre: ").append(alumno.getNombre())
+            lista.append("ID: \n").append(alumno.getId())
+                 .append(", Nombre: \n").append(alumno.getNombre())
                  .append(", Edad: ").append(alumno.getEdad())
                  .append("\n");
         }
