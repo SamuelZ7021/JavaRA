@@ -31,7 +31,6 @@ public class Menu {
             );
 
             if (opcion == null) {
-                // El usuario cerró el diálogo, salir del bucle.
                 break;
             }
 
@@ -52,10 +51,7 @@ public class Menu {
         }
     }
 
-    /**
-     * Permite al usuario registrarse como un nuevo cliente.
-     * @param userService El servicio de usuarios para registrar al nuevo cliente.
-     */
+    // Permite al usuario registrarse como un nuevo cliente.
     private void registrarCliente(UserService userService) {
         String nombre = JOptionPane.showInputDialog("Nombre:");
         String email = JOptionPane.showInputDialog("Email:");
@@ -70,10 +66,7 @@ public class Menu {
         }
     }
 
-    /**
-     * Gestiona el proceso de inicio de sesión del usuario.
-     * @param userService El servicio de usuarios para autenticar.
-     */
+    // Gestiona el proceso de inicio de sesión del usuario.
     private void iniciarSesion(UserService userService) {
         String email = JOptionPane.showInputDialog("Email:");
         String password = JOptionPane.showInputDialog("Contraseña:");
@@ -94,11 +87,7 @@ public class Menu {
         }
     }
 
-    /**
-     * Muestra el menú específico para usuarios Administradores.
-     * @param userService El servicio de usuarios.
-     * @param admin El objeto Administrador actualmente logueado.
-     */
+    // Muestra el menú específico para usuarios Administradores.
     private void menuAdministrador(UserService userService, Administrador admin) {
         while (true) {
             String opcion = JOptionPane.showInputDialog(
@@ -151,11 +140,7 @@ public class Menu {
         }
     }
 
-    /**
-     * Muestra el menú específico para usuarios Clientes.
-     * @param userService El servicio de usuarios.
-     * @param cliente El objeto Cliente actualmente logueado.
-     */
+    // Muestra el menú específico para usuarios Clientes.
     private void menuCliente(UserService userService, Cliente cliente) {
         while (true) {
             String opcion = JOptionPane.showInputDialog(

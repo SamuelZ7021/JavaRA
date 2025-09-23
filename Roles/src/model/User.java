@@ -2,28 +2,22 @@ package model;
 
 import security.Autenticable;
 
-/**
- * Clase abstracta que representa a un usuario genérico del sistema.
- * Define las propiedades y comportamientos comunes a todos los usuarios.
+ /**
+    * Clase abstracta que representa a un usuario genérico del sistema.
+    * Define las propiedades y comportamientos comunes a todos los usuarios.
  */
 public abstract class User implements Autenticable {
     // Contador estático para generar IDs autoincrementales.
     private static int contadorId = 1;
-    private int id; // ID único del usuario.
-    private String name; // Nombre del usuario.
-    private String email; // Email del usuario, usado para iniciar sesión.
-    protected String password; // Contraseña del usuario.
-    private boolean estado; // Estado del usuario (true: activo, false: bloqueado).
+    private int id;
+    private String name;
+    private String email;
+    protected String password;
+    private boolean estado;
 
-    /**
-     * Constructor para crear una nueva instancia de Usuario.
-     * @param name Nombre del usuario.
-     * @param email Email del usuario.
-     * @param password Contraseña del usuario.
-     * @param estado Estado inicial del usuario.
-     */
+    // Constructor para crear una nueva instancia de Usuario.
     public User(String name, String email, String password, boolean estado) {
-        this.id = contadorId++; // Asigna un ID único y lo incrementa.
+        this.id = contadorId++;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -80,11 +74,7 @@ public abstract class User implements Autenticable {
         this.estado = estado;
     }
 
-    /**
-     * Implementación del método de login de la interfaz Autenticable.
-     * @param password La contraseña a verificar.
-     * @return true si el usuario está activo y la contraseña es correcta, false en caso contrario.
-     */
+    // Implementación del método de login de la interfaz Autenticable.
     @Override
     public boolean login(String password) {
         if (!this.estado) { // No permite iniciar sesión si el usuario está bloqueado.
@@ -93,10 +83,7 @@ public abstract class User implements Autenticable {
         return this.password.equals(password);
     }
 
-    /**
-     * Devuelve una cadena con la información básica del perfil del usuario.
-     * @return String con los detalles del usuario.
-     */
+    // Devuelve una cadena con la información básica del perfil del usuario.
     public String mostrarPerfil() {
         return "ID: " + id + "\n" +
                "Nombre: " + name + "\n" +
@@ -104,9 +91,6 @@ public abstract class User implements Autenticable {
                "Estado: " + (estado ? "Activo" : "Bloqueado");
     }
 
-    /**
-     * Método abstracto que debe ser implementado por las clases hijas.
-     * @return Una cadena que describe el rol del usuario (ej. "Cliente", "Administrador").
-     */
+    // Método abstracto que debe ser implementado por las clases hijas.
     public abstract String rolDescripcion();
 }

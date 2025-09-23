@@ -8,15 +8,7 @@ public class Cliente extends User {
     private String direccion; // Dirección de envío del cliente.
     private String telefono; // Número de contacto del cliente.
 
-    /**
-     * Constructor para crear una nueva instancia de Cliente.
-     * @param name Nombre del cliente.
-     * @param email Email del cliente.
-     * @param password Contraseña del cliente.
-     * @param estado Estado inicial del cliente.
-     * @param direccion Dirección del cliente.
-     * @param telefono Teléfono del cliente.
-     */
+    // Constructor para crear una nueva instancia de Cliente.
     public Cliente(String name, String email, String password, boolean estado, String direccion, String telefono) {
         super(name, email, password, estado);
         this.direccion = direccion;
@@ -52,10 +44,7 @@ public class Cliente extends User {
         }
     }
 
-    /**
-     * Sobrescribe el método para mostrar el perfil, añadiendo la información específica del cliente.
-     * @return String con los detalles completos del cliente.
-     */
+    // Sobrescribe el método para mostrar el perfil, añadiendo la información específica del cliente.
     @Override
     public String mostrarPerfil() {
         return super.mostrarPerfil() + "\n" +
@@ -64,12 +53,11 @@ public class Cliente extends User {
                "Rol: " + rolDescripcion();
     }
 
-    /**
-     * Implementación del método abstracto para describir el rol.
-     * @return La cadena "Cliente".
-     */
+    // Implementación del método abstracto para describir el rol.
     @Override
     public String rolDescripcion() {
         return "Cliente";
     }
+
+
 }

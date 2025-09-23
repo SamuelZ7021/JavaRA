@@ -17,9 +17,7 @@ public class UserService implements UsuarioInterface {
     // Mapa para almacenar usuarios. La clave es el email (String) y el valor es el objeto User.
     private final Map<String, User> usuarios = new HashMap<>();
 
-    /**
-     * Registra un nuevo usuario, validando que no sea nulo y que el email no exista previamente.
-     */
+    // Registra un nuevo usuario, validando que no sea nulo y que el email no exista previamente.
     @Override
     public void registrarUsuario(User usuario) {
         if(usuario == null || usuario.getEmail() == null){
@@ -34,9 +32,7 @@ public class UserService implements UsuarioInterface {
         // No se muestra mensaje aquí para no interrumpir el flujo de inicialización de datos.
     }
 
-    /**
-     * Inicia sesión validando el email y la contraseña.
-     */
+    // Inicia sesión validando el email y la contraseña.
     @Override
     public User iniciarSesion(String email, String password) {
         User usuario = usuarios.get(email);
@@ -46,17 +42,13 @@ public class UserService implements UsuarioInterface {
         return null; // Falla el login.
     }
 
-    /**
-     * Devuelve una copia de la lista de todos los usuarios.
-     */
+    // Devuelve una copia de la lista de todos los usuarios.
     @Override
     public List<User> obtenerTodosLosUsuarios() {
         return new ArrayList<>(usuarios.values());
     }
 
-    /**
-     * Busca un usuario por su ID numérico.
-     */
+    // Busca un usuario por su ID numérico.
     @Override
     public User obtenerUsuarioPorId(int id) {
         for (User user : usuarios.values()){
@@ -67,9 +59,7 @@ public class UserService implements UsuarioInterface {
         return null; // No se encontró el usuario.
     }
 
-    /**
-     * Actualiza un usuario si existe en el mapa.
-     */
+    // Actualiza un usuario si existe en el mapa.
     @Override
     public void actualizarUsuario(User usuario) {
         if (usuario != null && usuarios.containsKey(usuario.getEmail())){
@@ -80,9 +70,7 @@ public class UserService implements UsuarioInterface {
         }
     }
 
-    /**
-     * Elimina un usuario buscando su ID.
-     */
+    // Elimina un usuario buscando su ID.
     @Override
     public void eliminarUsuario(int id) {
         String emailParaEliminar = null;
