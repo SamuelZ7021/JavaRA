@@ -2,32 +2,31 @@ package model;
 
 import security.Autenticable;
 
- /**
-    * Clase abstracta que representa a un usuario genérico del sistema.
-    * Define las propiedades y comportamientos comunes a todos los usuarios.
+/**
+ * Clase abstracta que representa a un usuario genérico del sistema.
  */
 public abstract class User implements Autenticable {
-    // Contador estático para generar IDs autoincrementales.
-    private static int contadorId = 1;
-    private int id;
+    private int id; // ID único del usuario (gestionado por la base de datos).
     private String name;
     private String email;
     protected String password;
     private boolean estado;
 
-    // Constructor para crear una nueva instancia de Usuario.
     public User(String name, String email, String password, boolean estado) {
-        this.id = contadorId++;
         this.name = name;
         this.email = email;
         this.password = password;
         this.estado = estado;
     }
 
-    // --- Getters y Setters con validaciones ---
+    // --- Getters y Setters ---
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -54,7 +53,11 @@ public abstract class User implements Autenticable {
         }
     }
 
-    protected String getPassword() {
+    /**
+     * Devuelve la contraseña. Se hace público para que el servicio pueda acceder a ella.
+     * @return la contraseña del usuario.
+     */
+    public String getPassword() {
         return password;
     }
 
@@ -74,16 +77,14 @@ public abstract class User implements Autenticable {
         this.estado = estado;
     }
 
-    // Implementación del método de login de la interfaz Autenticable.
     @Override
     public boolean login(String password) {
-        if (!this.estado) { // No permite iniciar sesión si el usuario está bloqueado.
+        if (!this.estado) {
             return false;
         }
         return this.password.equals(password);
     }
 
-    // Devuelve una cadena con la información básica del perfil del usuario.
     public String mostrarPerfil() {
         return "ID: " + id + "\n" +
                "Nombre: " + name + "\n" +
@@ -91,6 +92,5 @@ public abstract class User implements Autenticable {
                "Estado: " + (estado ? "Activo" : "Bloqueado");
     }
 
-    // Método abstracto que debe ser implementado por las clases hijas.
     public abstract String rolDescripcion();
 }

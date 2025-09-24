@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.*;
+
 /**
  * Clase que representa a un Cliente, un tipo específico de Usuario.
  * Hereda de User y añade propiedades específicas como dirección y teléfono.
@@ -25,22 +27,18 @@ public class Cliente extends User {
         return telefono;
     }
 
-    /**
-     * Actualiza la información de contacto del cliente.
-     * @param telefono Nuevo teléfono.
-     * @param direccion Nueva dirección.
-     */
+    // Actualiza la información de contacto del cliente.
     public void actualizarContacto(String telefono, String direccion) {
         if (telefono != null && !telefono.trim().isEmpty()) {
             this.telefono = telefono;
         } else {
-            System.out.println("El teléfono no puede estar vacío.");
+            JOptionPane.showMessageDialog(null,"El teléfono no puede estar vacío.");
         }
 
         if (direccion != null && !direccion.trim().isEmpty()) {
             this.direccion = direccion;
         } else {
-            System.out.println("La dirección no puede estar vacía.");
+            JOptionPane.showMessageDialog(null,"La dirección no puede estar vacía.");
         }
     }
 
@@ -60,4 +58,8 @@ public class Cliente extends User {
     }
 
 
+    @Override
+    public boolean login(String password) {
+        return false;
+    }
 }

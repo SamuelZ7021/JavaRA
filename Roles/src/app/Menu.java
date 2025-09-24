@@ -2,26 +2,20 @@ package app;
 
 import model.Administrador;
 import model.Cliente;
-import model.User;
+import model.User; // Import corregido
 import service.UserService;
 
 import javax.swing.JOptionPane;
 import java.util.List;
 
-
+/**
+ * Clase que gestiona la interfaz de usuario y la navegación entre menús.
+ */
 public class Menu {
-    // Instancia del servicio de usuarios para gestionar las operaciones.
     private final UserService userService = new UserService();
 
-     //Muestra el menú principal de la aplicación y gestiona las opciones del usuario.
+    // Menu pricipal, antes de insertar un usuario
     public void mostrarMenu() {
-        // --- Datos de prueba para iniciar la aplicación con usuarios predefinidos ---
-        User admin = new Administrador("Admin", "admin@test.com", "admin123", true);
-        User cliente = new Cliente("Cliente", "cliente@test.com", "cliente123", false, "Calle Falsa 123", "555-1234");
-        userService.registrarUsuario(admin);
-        userService.registrarUsuario(cliente);
-
-        // Bucle infinito para mantener el menú activo.
         while (true) {
             String opcion = JOptionPane.showInputDialog(
                     "Menú Principal\n" +
@@ -42,7 +36,7 @@ public class Menu {
                     registrarCliente(userService);
                     break;
                 case "3":
-                    System.exit(0); // Termina la aplicación.
+                    System.exit(0);
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Opción no válida.");
@@ -51,7 +45,6 @@ public class Menu {
         }
     }
 
-    // Permite al usuario registrarse como un nuevo cliente.
     private void registrarCliente(UserService userService) {
         String nombre = JOptionPane.showInputDialog("Nombre:");
         String email = JOptionPane.showInputDialog("Email:");
@@ -59,14 +52,13 @@ public class Menu {
         String direccion = JOptionPane.showInputDialog("Dirección:");
         String telefono = JOptionPane.showInputDialog("Teléfono:");
 
-        // Valida que todos los campos estén llenos antes de crear el cliente.
-        if (nombre != null && email != null && password != null && direccion != null && telefono != null) {
+        if (nombre != null && !nombre.trim().isEmpty() && email != null && !email.trim().isEmpty()) {
             User nuevoCliente = new Cliente(nombre, email, password, true, direccion, telefono);
             userService.registrarUsuario(nuevoCliente);
+            JOptionPane.showMessageDialog(null, "Cliente registrado exitosamente.");
         }
     }
 
-    // Gestiona el proceso de inicio de sesión del usuario.
     private void iniciarSesion(UserService userService) {
         String email = JOptionPane.showInputDialog("Email:");
         String password = JOptionPane.showInputDialog("Contraseña:");
@@ -75,19 +67,17 @@ public class Menu {
             User usuario = userService.iniciarSesion(email, password);
             if (usuario != null) {
                 JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
-                // Redirige al menú correspondiente según el tipo de usuario.
                 if (usuario instanceof Administrador) {
                     menuAdministrador(userService, (Administrador) usuario);
                 } else if (usuario instanceof Cliente) {
                     menuCliente(userService, (Cliente) usuario);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos.");
+                JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos, o usuario bloqueado.");
             }
         }
     }
 
-    // Muestra el menú específico para usuarios Administradores.
     private void menuAdministrador(UserService userService, Administrador admin) {
         while (true) {
             String opcion = JOptionPane.showInputDialog(
@@ -107,6 +97,7 @@ public class Menu {
                     List<User> usuarios = userService.obtenerTodosLosUsuarios();
                     StringBuilder listaUsuarios = new StringBuilder("Lista de Usuarios:\n");
                     for (User u : usuarios) {
+                        // Corregido: Llamar a mostrarPerfil() para obtener la información completa.
                         listaUsuarios.append(u.mostrarPerfil()).append("\n--------------------\n");
                     }
                     JOptionPane.showMessageDialog(null, listaUsuarios.toString());
@@ -119,8 +110,10 @@ public class Menu {
                         if (usuarioAGestionar != null) {
                             String accion = JOptionPane.showInputDialog("¿Desea 'bloquear' o 'desbloquear' al usuario?");
                             boolean bloquear = "bloquear".equalsIgnoreCase(accion);
-                            admin.gestionarBloqueoUsuario(usuarioAGestionar, bloquear);
-                            JOptionPane.showMessageDialog(null, "Estado del usuario actualizado.");
+                            
+                            // Corregido: Llamar al método del servicio, que maneja la transacción y la bitácora.
+                            userService.gestionarBloqueoUsuario(admin, usuarioAGestionar, bloquear);
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
                         }
@@ -132,7 +125,7 @@ public class Menu {
                     JOptionPane.showMessageDialog(null, admin.mostrarPerfil());
                     break;
                 case "4":
-                    return; // Sale del menú del administrador.
+                    return;
                 default:
                     JOptionPane.showMessageDialog(null, "Opción no válida.");
                     break;
@@ -140,7 +133,6 @@ public class Menu {
         }
     }
 
-    // Muestra el menú específico para usuarios Clientes.
     private void menuCliente(UserService userService, Cliente cliente) {
         while (true) {
             String opcion = JOptionPane.showInputDialog(
@@ -159,14 +151,14 @@ public class Menu {
                     String nuevaDireccion = JOptionPane.showInputDialog("Nueva dirección:", cliente.getDireccion());
                     String nuevoTelefono = JOptionPane.showInputDialog("Nuevo teléfono:", cliente.getTelefono());
                     cliente.actualizarContacto(nuevoTelefono, nuevaDireccion);
-                    userService.actualizarUsuario(cliente); // Notifica al servicio sobre la actualización.
+                    userService.actualizarUsuario(cliente);
                     JOptionPane.showMessageDialog(null, "Contacto actualizado.");
                     break;
                 case "2":
                     JOptionPane.showMessageDialog(null, cliente.mostrarPerfil());
                     break;
                 case "3":
-                    return; // Sale del menú del cliente.
+                    return;
                 default:
                     JOptionPane.showMessageDialog(null, "Opción no válida.");
                     break;
