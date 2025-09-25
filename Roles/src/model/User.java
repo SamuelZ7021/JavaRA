@@ -6,12 +6,13 @@ import security.Autenticable;
  * Clase abstracta que representa a un usuario genérico del sistema.
  */
 public abstract class User implements Autenticable {
-    private int id; // ID único del usuario (gestionado por la base de datos).
+    private int id; // id único del usuario (gestionado por la base de datos).
     private String name;
     private String email;
     protected String password;
     private boolean estado;
 
+    public User(){}
     public User(String name, String email, String password, boolean estado) {
         this.name = name;
         this.email = email;

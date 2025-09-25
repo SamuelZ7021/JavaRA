@@ -2,7 +2,7 @@ package app;
 
 import model.Administrador;
 import model.Cliente;
-import model.User; // Import corregido
+import model.User;
 import service.UserService;
 
 import javax.swing.JOptionPane;
@@ -97,7 +97,7 @@ public class Menu {
                     List<User> usuarios = userService.obtenerTodosLosUsuarios();
                     StringBuilder listaUsuarios = new StringBuilder("Lista de Usuarios:\n");
                     for (User u : usuarios) {
-                        // Corregido: Llamar a mostrarPerfil() para obtener la información completa.
+                        // Llamar a mostrarPerfil() para obtener la información completa.
                         listaUsuarios.append(u.mostrarPerfil()).append("\n--------------------\n");
                     }
                     JOptionPane.showMessageDialog(null, listaUsuarios.toString());
@@ -111,7 +111,7 @@ public class Menu {
                             String accion = JOptionPane.showInputDialog("¿Desea 'bloquear' o 'desbloquear' al usuario?");
                             boolean bloquear = "bloquear".equalsIgnoreCase(accion);
                             
-                            // Corregido: Llamar al método del servicio, que maneja la transacción y la bitácora.
+                            // Llamar al método del servicio, que maneja la transacción y la bitácora.
                             userService.gestionarBloqueoUsuario(admin, usuarioAGestionar, bloquear);
 
                         } else {

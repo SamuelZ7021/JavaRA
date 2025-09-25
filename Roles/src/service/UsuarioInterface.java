@@ -26,6 +26,5 @@ public interface UsuarioInterface {
     void actualizarUsuario(User usuario) throws SQLException;
 
     // Elimina un usuario del sistema por su ID.
-
     void eliminarUsuario(int id) throws SQLException;
 }
