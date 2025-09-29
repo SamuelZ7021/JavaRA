@@ -23,7 +23,9 @@ public class Cliente extends User {
         return direccion;
     }
 
-    public String getTelefono() {
+    public
+
+    String getTelefono() {
         return telefono;
     }
 

@@ -84,8 +84,9 @@ public class Menu {
                     "Menú de Administrador\n" +
                     "1. Ver todos los usuarios\n" +
                     "2. Gestionar bloqueo de usuario\n" +
-                    "3. Ver mi perfil\n" +
-                    "4. Cerrar Sesión"
+                            "3. Eliminar Usuario\n" +
+                    "4. Ver mi perfil\n" +
+                    "5. Cerrar Sesión"
             );
 
             if (opcion == null) {
@@ -122,9 +123,20 @@ public class Menu {
                     }
                     break;
                 case "3":
-                    JOptionPane.showMessageDialog(null, admin.mostrarPerfil());
+                    String idEliminar = JOptionPane.showInputDialog("Ingrese el ID del usuario a eliminar");
+                    try {
+                        if (idEliminar == null) return;
+                        int idUsuarioEliminar = Integer.parseInt(idEliminar);
+                        userService.eliminarUsuario(idUsuarioEliminar);
+                        JOptionPane.showMessageDialog(null, "Usuario eliminado exitosamente.");
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "ID inválido. Por favor, ingrese un número.");
+                    }
                     break;
                 case "4":
+                    JOptionPane.showMessageDialog(null, admin.mostrarPerfil());
+                    break;
+                case "5":
                     return;
                 default:
                     JOptionPane.showMessageDialog(null, "Opción no válida.");

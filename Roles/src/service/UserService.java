@@ -322,12 +322,47 @@ public class UserService implements UsuarioInterface {
      */
     @Override
     public void eliminarUsuario(int id) {
-        String sql = "DELETE FROM usuarios WHERE id = ?";
-        try (Connection conn = Conexion.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
+        Connection conn = null;
+        try{
+            conn = Conexion.getConnection();
+            conn.setAutoCommit(false);
+            // Se elimina toda referencia que hay en 'bitacaro_bloqueos' a este usuario.
+            // Se elimina todos los registros de 'clientes' asociados a este usuario.
+            String sqlBitacora = "DELETE FROM bitacora_bloqueos WHERE usuario_afectado_id = ?";
+            try(PreparedStatement pstmtBitacora = conn.prepareStatement(sqlBitacora)) {
+                pstmtBitacora.setInt(1, id);
+                pstmtBitacora.executeUpdate();
+            }
+            // Se elimina el usuario de la tabla principal.
+            String sql = "DELETE FROM usuarios WHERE id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                // Lanza el error si hay un problema con la base de datos al eliminar.
+                JOptionPane.showMessageDialog(null, "Error de base de datos al eliminar: " + e.getMessage());
+            }
+            // Verifica si al hacer la pedida de la transacción concuerda
+            // Confirma la transacción si no hubo errores
+            conn.commit();
         } catch (SQLException e) {
+            // Manejo de errores y rollback
+            // Si algo falla se revierten todos los cambios para que no que queden inconsistencias.
+            if (conn != null){
+                try{
+                    conn.rollback();
+                } catch (SQLException ex) {}
+            }
             JOptionPane.showMessageDialog(null, "Error de base de datos al eliminar: " + e.getMessage());
+        } finally {
+            // Cierre de la conexion a la base de datos
+            if( conn != null ){
+                // Se restaura el auto-commit
+                try {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } catch (SQLException e) {}
+            }
         }
     }
 
