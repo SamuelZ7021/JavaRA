@@ -16,9 +16,10 @@ public class MenuController {
         this.servicio = new InventoryServicio();
     }
 
+
     public void agregarProducto() {
         try {
-            String nombre = JOptionPane.showInputDialog("Nombre del producto:");
+            String nombre = JOptionPane.showInputDialog("Nombre del producto: ");
             if (nombre == null || nombre.trim().isEmpty()) return;
 
             double precio = Double.parseDouble(JOptionPane.showInputDialog("Precio del producto:"));
