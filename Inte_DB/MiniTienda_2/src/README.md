@@ -1,5 +1,4 @@
 # MiniTienda - Un Proyecto Java para la Gestión de Inventario
-
 ## ¿Qué hace este proyecto?
 
 Imagina que tienes una pequeña tienda y necesitas llevar un registro de los productos que vendes. Este programa te ayuda con eso. Es una aplicación de consola (se ejecuta en una ventana de texto) que te presenta un menú con opciones como:
@@ -110,4 +109,4 @@ Para que te hagas una idea de cómo funciona todo junto, aquí tienes el flujo d
 
 Separar estas responsabilidades hace que el código sea mucho más fácil de mantener. Si en el futuro cambias de base de datos (de MySQL a otra), solo tendrías que modificar el `ProductoModel`. El `InventoryServicio` y el resto de la aplicación no se verían afectados porque la "lógica de negocio" está separada del "acceso a datos".
 
-Autor: Samuel Andrey Zapata Casas
+### Autor: Samuel Andrey Zapata Casas
