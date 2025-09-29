@@ -109,3 +109,5 @@ Para que te hagas una idea de cómo funciona todo junto, aquí tienes el flujo d
 | **Analogía** | Obrero | Gerente |
 
 Separar estas responsabilidades hace que el código sea mucho más fácil de mantener. Si en el futuro cambias de base de datos (de MySQL a otra), solo tendrías que modificar el `ProductoModel`. El `InventoryServicio` y el resto de la aplicación no se verían afectados porque la "lógica de negocio" está separada del "acceso a datos".
+
+Autor: Samuel Andrey Zapata Casas
