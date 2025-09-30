@@ -1,19 +1,21 @@
 package com.universidad.model;
 
 public abstract class Persona {
-    private static int contadorId = 1;
-    private final int id;
+    private int id;
     protected String nombre;
     protected int edad;
 
     public Persona(String nombre, int edad) {
-        this.id = contadorId++;
         this.nombre = nombre;
         this.edad = edad;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -27,11 +29,9 @@ public abstract class Persona {
     @Override
     public String toString() {
         return "Persona" +
-                "id:" + id +
-                ", nombre:'" + nombre + '\'' +
-                ", edad:" + edad +
-                '}';
+                "id: " + id + '\n' +
+                ", nombre: " + nombre + '\n' +
+                ", edad: " + edad
+                ;
     }
-
-    public abstract void mostrarInformacion();
 }
