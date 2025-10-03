@@ -33,7 +33,7 @@ public class AlumnoDAO {
             throw new RuntimeException("Error al eliminar alumno: " + e.getMessage(), e);
         }
     }
-
+// hola
     public List<Alumno> obtenerTodosLosAlumnos(){
         List<Alumno> listaAlumnos = new ArrayList<>();
         String sql = "SELECT * FROM alumnos";
