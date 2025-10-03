@@ -1,46 +1,28 @@
 package com.universidad.Service;
 
 import com.universidad.model.Alumno;
-import com.universidad.model.Asignatura;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ServiceAlumno {
 
-    private final AlumnoDAO alumnoDAO;
-    private final AsignaturaDAO asignaturaDAO;
-
-    public ServiceAlumno() {
-        this.alumnoDAO = new AlumnoDAO();
-        this.asignaturaDAO = new AsignaturaDAO();
-    }
+    private final List<Alumno> alumnos = new ArrayList<>();
 
     public void agregarAlumno(Alumno alumno) {
-        if (alumno != null) {
-            alumnoDAO.agregarAlumno(alumno);
-        }
+        alumnos.add(alumno);
     }
 
-    public List<Alumno> listarAlumnos() {
-        List<Alumno> alumnos = alumnoDAO.obtenerTodosLosAlumnos();
-        // Para cada alumno, obtenemos y asignamos sus asignaturas
-        for (Alumno alumno : alumnos) {
-            List<Asignatura> asignaturas = asignaturaDAO.obtenerAsignaturasDeAlumno(alumno.getId());
-            alumno.setAsignaturas(asignaturas);
-        }
-        return alumnos;
+    public boolean eliminarAlumno(int id) {
+        return alumnos.removeIf(alumno -> alumno.getId() == id);
     }
 
-    public void eliminarAlumno(int idAlumno) {
-        alumnoDAO.eliminarAlumno(idAlumno);
+    public Optional<Alumno> buscarAlumnoPorId(int id) {
+        return alumnos.stream().filter(alumno -> alumno.getId() == id).findFirst();
     }
 
-    public Alumno obtenerAlumnoPorId(int idAlumno) {
-        Alumno alumno = alumnoDAO.obtenerAlumnoPorId(idAlumno);
-        if (alumno != null) {
-            List<Asignatura> asignaturas = asignaturaDAO.obtenerAsignaturasDeAlumno(alumno.getId());
-            alumno.setAsignaturas(asignaturas);
-        }
-        return alumno;
+    public List<Alumno> obtenerTodosLosAlumnos() {
+        return new ArrayList<>(alumnos);
     }
 }
