@@ -2,6 +2,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import config.ConnectionFactory;
 import view.UserMenu;
+import view.MenuTicket;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,12 +17,35 @@ public class Main {
             e.printStackTrace();
             return;
         }
+        showMainMenu();
+    }
 
-        // Iniciar menú principal
-        // MenuTicket menuTicket = new MenuTicket();
-        // menuTicket.start();
-
+    private static void showMainMenu(){
         UserMenu userMenu = new UserMenu();
-        userMenu.showMenu();
+        MenuTicket menuTicket = new MenuTicket();
+
+        while (true){
+            String input = JOptionPane.showInputDialog(null,
+                    """
+                            Menu principal
+                            1. Gestionar Usuarios
+                            2. Gestionar Tickets
+                            0. Salir
+                            """,
+                    "Sistemas de Tickets", JOptionPane.QUESTION_MESSAGE);
+            if(input == null) {
+                break;
+            }
+
+            switch (input) {
+                case "1" -> userMenu.showMenu();
+                case "2" -> menuTicket.start();
+                case "0" -> {
+                    JOptionPane.showMessageDialog(null, "saliendo del sistema...");
+                    return;
+                }
+                default -> JOptionPane.showMessageDialog(null, "Opción no valida");
+            }
+        }
     }
 }
