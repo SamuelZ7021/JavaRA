@@ -11,9 +11,9 @@ public class Main {
 
         // Verificar conexión con Supabase antes de iniciar
         try (Connection conn = ConnectionFactory.getConnection()) {
-            System.out.println("✅ Connected to Supabase successfully!");
+            System.out.println("Connected to Supabase successfully!");
         } catch (SQLException e) {
-            System.err.println("❌ Connection failed:");
+            System.err.println("Connection failed:");
             e.printStackTrace();
             return;
         }

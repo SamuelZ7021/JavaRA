@@ -84,10 +84,10 @@ public class TicketController {
 
     // Agregar comentario usando el nombre del usuario
     public void addComment(int ticketId, String username, String text) {
-        Optional<Integer> userIdOpt = ticketService.getStateIdByName(username);
+        Optional<Integer> userIdOpt = ticketService.getUserIdByUsername(username);
 
         if(userIdOpt.isEmpty()){
-            throw new IllegalStateException("Usuario no encontrado" + username);
+            throw new IllegalStateException("Usuario no encontrado " + username);
         }
         ticketService.addComment(ticketId, userIdOpt.get(), text);
     }
