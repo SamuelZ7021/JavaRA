@@ -1,4 +1,4 @@
-package com.bliNva.dao;
+package com.bliNva.Interface;
 
 import com.bliNva.model.Socio;
 import java.util.List;

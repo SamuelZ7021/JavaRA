@@ -3,7 +3,7 @@ package com.bliNva.controller;
 import com.bliNva.exception.BusinessException;
 import com.bliNva.model.Prestamo;
 import com.bliNva.service.PrestamoService;
-import com.bliNva.service.PrestamoServiceInterface;
+import com.bliNva.Interface.PrestamoServiceInterface;
 import com.bliNva.util.LoggerUtil;
 
 import javax.swing.*;

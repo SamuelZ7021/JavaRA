@@ -1,7 +1,8 @@
 package com.bliNva.service;
 
-import com.bliNva.dao.SocioDAO;
-import com.bliNva.dao.impl.SocioDAOImpl;
+import com.bliNva.Interface.SocioDAO;
+import com.bliNva.Interface.SocioServiceInterface;
+import com.bliNva.dao.SocioDAOImpl;
 import com.bliNva.exception.BusinessException;
 import com.bliNva.model.Socio;
 

@@ -3,7 +3,7 @@ package com.bliNva.controller;
 import com.bliNva.exception.BusinessException;
 import com.bliNva.model.Usuario;
 import com.bliNva.service.UsuarioService;
-import com.bliNva.service.UsuarioServiceInterface;
+import com.bliNva.Interface.UsuarioServiceInterface;
 import com.bliNva.util.LoggerUtil;
 
 import javax.swing.*;

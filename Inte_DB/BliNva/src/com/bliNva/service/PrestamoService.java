@@ -1,8 +1,9 @@
 package com.bliNva.service;
 
-import com.bliNva.dao.impl.LibroDAOImpl;
-import com.bliNva.dao.impl.PrestamoDAOImpl;
-import com.bliNva.dao.impl.SocioDAOImpl;
+import com.bliNva.Interface.PrestamoServiceInterface;
+import com.bliNva.dao.LibroDAOImpl;
+import com.bliNva.dao.PrestamoDAOImpl;
+import com.bliNva.dao.SocioDAOImpl;
 import com.bliNva.exception.BusinessException;
 import com.bliNva.exception.DataAccessException;
 import com.bliNva.model.Libro;

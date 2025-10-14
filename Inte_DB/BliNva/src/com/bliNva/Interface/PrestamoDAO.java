@@ -1,4 +1,4 @@
-package com.bliNva.dao;
+package com.bliNva.Interface;
 
 import com.bliNva.model.Prestamo;
 import java.sql.Connection;

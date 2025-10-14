@@ -1,7 +1,8 @@
 package com.bliNva.service;
 
-import com.bliNva.dao.LibroDAO;
-import com.bliNva.dao.impl.LibroDAOImpl;
+import com.bliNva.Interface.LibroDAO;
+import com.bliNva.Interface.LibroServiceInterface;
+import com.bliNva.dao.LibroDAOImpl;
 import com.bliNva.model.Libro;
 
 import java.util.List;

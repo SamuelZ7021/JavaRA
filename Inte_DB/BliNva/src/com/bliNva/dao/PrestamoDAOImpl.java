@@ -1,6 +1,6 @@
-package com.bliNva.dao.impl;
+package com.bliNva.dao;
 
-import com.bliNva.dao.PrestamoDAO;
+import com.bliNva.Interface.PrestamoDAO;
 import com.bliNva.exception.DataAccessException;
 import com.bliNva.model.Prestamo;
 import com.bliNva.util.DatabaseConnector;

@@ -1,6 +1,6 @@
-package com.bliNva.dao.impl;
+package com.bliNva.dao;
 
-import com.bliNva.dao.SocioDAO;
+import com.bliNva.Interface.SocioDAO;
 import com.bliNva.exception.DataAccessException;
 import com.bliNva.model.Socio;
 import com.bliNva.util.DatabaseConnector;

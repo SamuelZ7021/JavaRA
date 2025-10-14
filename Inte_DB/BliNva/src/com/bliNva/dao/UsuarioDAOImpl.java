@@ -1,6 +1,6 @@
-package com.bliNva.dao.impl;
+package com.bliNva.dao;
 
-import com.bliNva.dao.UsuarioDAO;
+import com.bliNva.Interface.UsuarioDAO;
 import com.bliNva.exception.DataAccessException;
 import com.bliNva.model.Usuario;
 import com.bliNva.util.DatabaseConnector;

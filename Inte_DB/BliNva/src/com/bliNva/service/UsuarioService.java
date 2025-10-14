@@ -1,9 +1,10 @@
 package com.bliNva.service;
 
-import com.bliNva.dao.PrestamoDAO;
-import com.bliNva.dao.UsuarioDAO;
-import com.bliNva.dao.impl.PrestamoDAOImpl;
-import com.bliNva.dao.impl.UsuarioDAOImpl;
+import com.bliNva.Interface.PrestamoDAO;
+import com.bliNva.Interface.UsuarioDAO;
+import com.bliNva.Interface.UsuarioServiceInterface;
+import com.bliNva.dao.PrestamoDAOImpl;
+import com.bliNva.dao.UsuarioDAOImpl;
 import com.bliNva.exception.BusinessException;
 import com.bliNva.model.Prestamo;
 import com.bliNva.model.Usuario;

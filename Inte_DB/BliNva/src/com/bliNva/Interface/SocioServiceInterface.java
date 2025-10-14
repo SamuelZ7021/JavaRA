@@ -1,4 +1,4 @@
-package com.bliNva.service;
+package com.bliNva.Interface;
 
 import com.bliNva.exception.BusinessException;
 import com.bliNva.model.Socio;
