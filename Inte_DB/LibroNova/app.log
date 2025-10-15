@@ -1,0 +1,85 @@
+Oct 15, 2025 6:43:52 AM com.libroNova.util.LoggerUtil logError
+SEVERE: Error de SQL al buscar usuario por email: zapata@gmail.com
+java.sql.SQLException: No suitable driver found for jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:638)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:160)
+	at com.libroNova.util.DatabaseConnector.getConnection(DatabaseConnector.java:24)
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:117)
+	at com.libroNova.service.AuthService.loginUsuario(AuthService.java:19)
+	at com.libroNova.controller.AuthController.iniciarSesion(AuthController.java:61)
+	at com.libroNova.controller.AuthController.iniciar(AuthController.java:34)
+	at Main.main(Main.java:6)
+
+Oct 15, 2025 6:43:52 AM com.libroNova.util.LoggerUtil logError
+SEVERE: Error inesperado en el login.
+com.libroNova.exception.DataAccessException: Error al buscar usuario por email.
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:127)
+	at com.libroNova.service.AuthService.loginUsuario(AuthService.java:19)
+	at com.libroNova.controller.AuthController.iniciarSesion(AuthController.java:61)
+	at com.libroNova.controller.AuthController.iniciar(AuthController.java:34)
+	at Main.main(Main.java:6)
+Caused by: java.sql.SQLException: No suitable driver found for jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:638)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:160)
+	at com.libroNova.util.DatabaseConnector.getConnection(DatabaseConnector.java:24)
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:117)
+	... 4 more
+
+Oct 15, 2025 6:44:13 AM com.libroNova.util.LoggerUtil logError
+SEVERE: Error de SQL al buscar usuario por email: samuel@gmail.com
+java.sql.SQLException: No suitable driver found for jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:638)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:160)
+	at com.libroNova.util.DatabaseConnector.getConnection(DatabaseConnector.java:24)
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:117)
+	at com.libroNova.service.AuthService.loginUsuario(AuthService.java:19)
+	at com.libroNova.controller.AuthController.iniciarSesion(AuthController.java:61)
+	at com.libroNova.controller.AuthController.iniciar(AuthController.java:34)
+	at Main.main(Main.java:6)
+
+Oct 15, 2025 6:44:13 AM com.libroNova.util.LoggerUtil logError
+SEVERE: Error inesperado en el login.
+com.libroNova.exception.DataAccessException: Error al buscar usuario por email.
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:127)
+	at com.libroNova.service.AuthService.loginUsuario(AuthService.java:19)
+	at com.libroNova.controller.AuthController.iniciarSesion(AuthController.java:61)
+	at com.libroNova.controller.AuthController.iniciar(AuthController.java:34)
+	at Main.main(Main.java:6)
+Caused by: java.sql.SQLException: No suitable driver found for jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:638)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:160)
+	at com.libroNova.util.DatabaseConnector.getConnection(DatabaseConnector.java:24)
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:117)
+	... 4 more
+
+Oct 15, 2025 6:48:10 AM com.libroNova.util.LoggerUtil logError
+SEVERE: Error de SQL al buscar usuario por email: zapata@gmail.com
+java.sql.SQLException: No suitable driver found for jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:638)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:160)
+	at com.libroNova.util.DatabaseConnector.getConnection(DatabaseConnector.java:24)
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:117)
+	at com.libroNova.service.AuthService.loginUsuario(AuthService.java:19)
+	at com.libroNova.controller.AuthController.iniciarSesion(AuthController.java:61)
+	at com.libroNova.controller.AuthController.iniciar(AuthController.java:34)
+	at Main.main(Main.java:6)
+
+Oct 15, 2025 6:48:10 AM com.libroNova.util.LoggerUtil logError
+SEVERE: Error inesperado en el login.
+com.libroNova.exception.DataAccessException: Error al buscar usuario por email.
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:127)
+	at com.libroNova.service.AuthService.loginUsuario(AuthService.java:19)
+	at com.libroNova.controller.AuthController.iniciarSesion(AuthController.java:61)
+	at com.libroNova.controller.AuthController.iniciar(AuthController.java:34)
+	at Main.main(Main.java:6)
+Caused by: java.sql.SQLException: No suitable driver found for jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:6543/postgres
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:638)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:160)
+	at com.libroNova.util.DatabaseConnector.getConnection(DatabaseConnector.java:24)
+	at com.libroNova.dao.UserDaoImpl.findByEmail(UserDaoImpl.java:117)
+	... 4 more
+
+Oct 15, 2025 6:50:59 AM com.libroNova.util.LoggerUtil logWarning
+WARNING: Intento de login fallido: Usuario no encontrado con el email: zaoata@gmail.com
+Oct 15, 2025 6:53:38 AM com.libroNova.util.LoggerUtil logInfo
+INFO: Préstamos exportados a CSV. Total: 3 préstamos.

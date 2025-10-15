@@ -1,0 +1,3 @@
+ID,ISBN,Titulo,Autor,Editorial,Anio,Genero,StockTotal,StockDisponible
+4,"300J","momo","Juan pablo","casadepapel",2001,"comedia",20,20
+5,"200I","Quien se Comio mi Queso","Grabiel","nosecomequeso",2007,"Exito",10,4
