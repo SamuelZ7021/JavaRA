@@ -8,7 +8,6 @@ import java.util.Properties;
 
 public class DatabaseConnector {
 
-
     public static Connection getConnection() throws SQLException {
         String url = PropertiesLoader.getProperty("db.url");
         String user = PropertiesLoader.getProperty("db.user");

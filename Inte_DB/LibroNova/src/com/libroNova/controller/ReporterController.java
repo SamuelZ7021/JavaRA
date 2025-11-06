@@ -34,7 +34,8 @@ public class ReporterController {
                     "--- GESTIÓN DE REPORTES ---\n" +
                             "1. Exportar catálogo de libros a CSV\n" +
                             "2. Exportar préstamos a CSV\n" +
-                            "3. Volver al Menú Principal\n\n" +
+                            "3. Exportar prestamos vencidos\n" +
+                            "4. Volver al Menú Principal\n\n" +
                             "Elige una opción:",
                     "Menú de Reportes",
                     JOptionPane.PLAIN_MESSAGE
@@ -49,8 +50,11 @@ public class ReporterController {
                 case "2":
                     exportarPrestamos();
                     break;
+                case "3":
+                exportarPrestamosVencidos();
+                break;
             }
-        } while (opcion != null && !opcion.equals("3"));
+        } while (opcion != null && !opcion.equals("4"));
     }
 
     private void exportarCatalogoLibros() {
@@ -87,6 +91,29 @@ public class ReporterController {
             String exportPath = PropertiesLoader.getProperty("csv.export.path");
             new File(exportPath).mkdirs();
             String filePath = exportPath + "todos_los_prestamos.csv";
+
+            CsvExportUtil.exportPrestamosToCsv(prestamos, filePath);
+
+            JOptionPane.showMessageDialog(null, "Reporte de préstamos exportado con éxito en:\n" + filePath, "Exportación Completa", JOptionPane.INFORMATION_MESSAGE);
+            LoggerUtil.logInfo("Préstamos exportados a CSV. Total: " + prestamos.size() + " préstamos.");
+
+        } catch (IOException e) {
+            LoggerUtil.logError("Error de E/S al exportar los préstamos.", e);
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al escribir el archivo CSV.", "Error de Exportación", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void exportarPrestamosVencidos() {
+        try {
+            List<Prestamo> prestamos = prestamoService.obtenerPrestamosVencidos();
+            if (prestamos.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No hay préstamos para exportar.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            String exportPath = PropertiesLoader.getProperty("csv.export.path");
+            new File(exportPath).mkdirs();
+            String filePath = exportPath + "prestamos_vencidos.csv";
 
             CsvExportUtil.exportPrestamosToCsv(prestamos, filePath);
 

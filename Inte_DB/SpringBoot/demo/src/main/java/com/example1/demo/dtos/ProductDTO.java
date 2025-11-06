@@ -7,24 +7,24 @@ import jakarta.validation.constraints.Size;
 public class ProductDTO {
     @NotEmpty(message = "El nombre del producto no puede estar vacío")
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
-    private String nombre;
+    private String name;
 
     @Min(value = 1, message = "El precio no puede ser negativo")
-    private double precio;
+    private double price;
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
