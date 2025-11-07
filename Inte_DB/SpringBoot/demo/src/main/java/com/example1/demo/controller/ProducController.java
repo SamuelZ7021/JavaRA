@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/products")
 public class ProducController {
@@ -35,8 +35,8 @@ public class ProducController {
     @PreAuthorize("hasRole('ADMIN')")
     public Product addProduct(@Valid @RequestBody ProductDTO productDTO){
         Product product = new Product();
-        product.setNombre(productDTO.getNombre());
-        product.setPrecio(productDTO.getPrecio());
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
 
         return productService.saveProduct(product);
     }
@@ -45,8 +45,8 @@ public class ProducController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO){
         Product productEx = productService.getFindById(id);
-        productEx.setNombre(productDTO.getNombre());
-        productEx.setPrecio(productDTO.getPrecio());
+        productEx.setName(productDTO.getName());
+        productEx.setPrice(productDTO.getPrice());
         return ResponseEntity.ok(productService.saveProduct(productEx));
     }
 
