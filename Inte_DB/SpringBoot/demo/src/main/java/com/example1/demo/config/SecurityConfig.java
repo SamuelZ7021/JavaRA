@@ -15,6 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.Arrays;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -35,6 +39,9 @@ public class SecurityConfig {
         http
                 // Deshabilitamos CSRF porque usaremos JWT (stateless)
                 .csrf(csrf -> csrf.disable())
+
+                // --- AÑADE ESTA LÍNEA AQUÍ ---
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
                 // Definimos las reglas de autorización
                 .authorizeHttpRequests(auth -> auth
@@ -78,5 +85,25 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    // ... (justo después o antes de tu passwordEncoder() bean)
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // Permite peticiones desde tu front-end de Angular
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        // Permite los métodos HTTP que usarás
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // Permite cabeceras comunes y la de 'Authorization' para tu JWT
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        // Permite que el navegador envíe credenciales (como cookies o tokens)
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Aplica esta configuración a todas las rutas de tu API
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
