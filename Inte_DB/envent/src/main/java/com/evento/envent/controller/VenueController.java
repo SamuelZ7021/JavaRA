@@ -3,7 +3,7 @@ package com.evento.envent.controller;
 import com.evento.envent.controller.dto.CreateVenueRequest;
 import com.evento.envent.controller.dto.VenueResponse;
 import com.evento.envent.services.VenueService;
-
+// --- Imports de Swagger ---
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+// --- Imports de Spring y Validations
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
