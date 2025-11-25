@@ -10,10 +10,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserUseCase userUseCase;
+
+    public UserController(UserUseCase userUseCase) {
+        this.userUseCase = userUseCase;
+    }
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User user){
@@ -37,7 +40,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
-        userUseCase.dalete(id);
+        userUseCase.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

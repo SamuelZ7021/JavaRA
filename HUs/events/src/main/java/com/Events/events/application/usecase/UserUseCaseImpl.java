@@ -32,22 +32,15 @@ public class UserUseCaseImpl implements UserUseCase {
 
     @Override
     public User update(Long id, User user) {
-        // 1. Verificamos si el usuario existe
         User currentUser = findById(id);
-
-        // 2. Actualizamos campos(Lógica de negocios: mantener el ID original
         currentUser.setName(user.getName());
         currentUser.setEmail(user.getEmail());
-
-        // 4. Guardamos los cambios
         return userRepositoryPort.save(currentUser);
     }
 
     @Override
-    public void dalete(Long id) {
-        // Verifica la existencia del ID para eliminar
+    public void delete(Long id) {
         findById(id);
         userRepositoryPort.deleteById(id);
-
     }
 }

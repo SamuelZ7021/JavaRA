@@ -9,5 +9,5 @@ public interface UserUseCase {
     User findById(Long id);
     List<User> findAll();
     User update(Long id, User user);
-    void dalete(Long id);
+    void delete(Long id);
 }
