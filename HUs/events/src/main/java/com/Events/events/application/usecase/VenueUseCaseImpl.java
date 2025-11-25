@@ -4,18 +4,19 @@ import com.Events.events.domain.model.Venue;
 import com.Events.events.domain.ports.in.VenueUseCase;
 import com.Events.events.domain.ports.out.VenueRepositoryPort;
 import com.Events.events.exception.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Service
+@RequiredArgsConstructor
 public class VenueUseCaseImpl implements VenueUseCase {
 
     private final VenueRepositoryPort venueRepositoryPort;
 
-    public VenueUseCaseImpl(VenueRepositoryPort venueRepositoryPort) {
-        this.venueRepositoryPort = venueRepositoryPort;
-    }
-
     @Override
+    @Transactional
     public Venue create(Venue venue) {
         return venueRepositoryPort.save(venue);
     }
@@ -27,11 +28,13 @@ public class VenueUseCaseImpl implements VenueUseCase {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Venue> findAll() {
         return venueRepositoryPort.findAll();
     }
 
     @Override
+    @Transactional
     public Venue update(Long id, Venue venue) {
         Venue existingVenue = findById(id);
 
@@ -42,6 +45,7 @@ public class VenueUseCaseImpl implements VenueUseCase {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         findById(id); // Validar
         venueRepositoryPort.deleteById(id);

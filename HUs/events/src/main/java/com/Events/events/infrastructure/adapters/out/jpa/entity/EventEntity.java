@@ -5,7 +5,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events",
-        uniqueConstraints = @UniqueConstraint(name = "uq_event_name", columnNames = "name")
+        uniqueConstraints = @UniqueConstraint(name = "uq_event_name", columnNames = "name"),
+        indexes = {
+                @Index(name = "idx_event_venue", columnList = "venue_id"),
+                @Index(name = "idx_event_date", columnList = "start_date")
+        }
 )
 public class EventEntity {
 
@@ -22,6 +26,8 @@ public class EventEntity {
     @Column(nullable = false)
     private LocalDateTime startDate;
 
+    @Column(length = 20)
+    private String status = "ACTIVE";
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venue_id", nullable = false)

@@ -1,0 +1,15 @@
+CREATE TABLE venues (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    address VARCHAR(255)
+);
+
+CREATE TABLE events (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    start_date DATETIME NOT NULL,
+    venue_id BIGINT NOT NULL,
+    CONSTRAINT uq_event_name UNIQUE (name)
+);

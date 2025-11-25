@@ -3,12 +3,15 @@ package com.Events.events.infrastructure.adapters.out.jpa;
 import com.Events.events.domain.model.Event;
 import com.Events.events.domain.ports.out.EventRepositoryPort;
 import com.Events.events.infrastructure.adapters.out.jpa.entity.EventEntity;
+import com.Events.events.infrastructure.adapters.out.jpa.specification.EventSpecification;
 import com.Events.events.infrastructure.mappers.EventMapper;
 import com.Events.events.infrastructure.adapters.out.jpa.repository.EventRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +58,16 @@ public class EventJpaAdapter implements EventRepositoryPort {
         }
 
         return eventMapper.toDomainList(entities);
+    }
+
+    public List<Event> findByFilters(Long venueId, String category, String status, LocalDateTime start, LocalDateTime end) {
+        Specification<EventEntity> spec = Specification.where(EventSpecification.hasVenueId(venueId))
+                .and(EventSpecification.hasCategory(category))
+                .and(EventSpecification.hasStatus(status))
+                .and(EventSpecification.isBetweenDates(start, end));
+
+        // JpaRepository.findAll(Specification) ejecutará la query optimizada
+        return eventMapper.toDomainList(eventRepository.findAll(spec));
     }
 
     @Override
