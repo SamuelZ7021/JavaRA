@@ -27,9 +27,19 @@ public class VenueEntity {
 
     @OneToMany(mappedBy = "venue",
             cascade = CascadeType.ALL,
+            orphanRemoval = true, // si quitas un evento de la lista, se borra de la BD
             fetch = FetchType.LAZY)
     private Set<EventEntity> events = new HashSet<>(); // Inicializar la colección
 
+    public void addEvent(EventEntity event){
+        events.add(event);
+        event.setVenue(this);
+    }
+
+    public void removeEvent(EventEntity event){
+        events.remove(event);
+        event.setVenue(null);
+    }
 
     public VenueEntity() {}
 

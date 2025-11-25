@@ -7,21 +7,22 @@ import com.Events.events.domain.ports.out.EventRepositoryPort;
 import com.Events.events.domain.ports.out.VenueRepositoryPort;
 import com.Events.events.exception.DuplicateEventException; // Reusamos tus excepciones
 import com.Events.events.exception.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class EventUseCaseImpl implements EventUseCase {
 
     private final EventRepositoryPort eventRepositoryPort;
     private final VenueRepositoryPort venueRepositoryPort;
 
-    // Inyección pura por constructor. ¡Sin @Autowired!
-    public EventUseCaseImpl(EventRepositoryPort eventRepositoryPort, VenueRepositoryPort venueRepositoryPort) {
-        this.eventRepositoryPort = eventRepositoryPort;
-        this.venueRepositoryPort = venueRepositoryPort;
-    }
 
     @Override
+    @Transactional
     public Event create(Event event) {
         // 1. Regla de Negocio: Validar nombre duplicado
         if (eventRepositoryPort.existsByName(event.getName())) {
@@ -47,6 +48,7 @@ public class EventUseCaseImpl implements EventUseCase {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> findAll() {
         return eventRepositoryPort.findAll();
     }
@@ -58,6 +60,7 @@ public class EventUseCaseImpl implements EventUseCase {
     }
 
     @Override
+    @Transactional
     public Event update(Long id, Event event) {
         // 1. Buscar existente
         Event existingEvent = findById(id);
@@ -78,6 +81,7 @@ public class EventUseCaseImpl implements EventUseCase {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         findById(id); // Validar existencia
         eventRepositoryPort.deleteById(id);
