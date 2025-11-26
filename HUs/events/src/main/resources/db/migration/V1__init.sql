@@ -13,3 +13,11 @@ CREATE TABLE events (
     venue_id BIGINT NOT NULL,
     CONSTRAINT uq_event_name UNIQUE (name)
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL
+);

@@ -1,9 +1,18 @@
 package com.Events.events.domain.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     private Long id;
     private String name;
     private String email;
+    private String password;
+    private String role;
 
 
     public User(Long id, String name, String email) {
