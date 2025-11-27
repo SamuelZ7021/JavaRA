@@ -26,7 +26,14 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Stateless no necesita CSRF
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/auth/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Rutas publicas
+                        // Rutas públicas: Auth, Swagger y ahora ACTUATOR (HU6)
+                        .requestMatchers(
+                                "/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/actuator/**" // <-- Permitir acceso a health y metrics
+                        ).permitAll()
                         .anyRequest().authenticated() // El resto requiere auth
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

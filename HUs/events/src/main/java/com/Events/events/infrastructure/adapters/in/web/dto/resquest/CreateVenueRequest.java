@@ -16,9 +16,21 @@ public class CreateVenueRequest {
     @NotBlank(message = "La ciudad no puede estar vacía")
     private String city;
 
+    @NotBlank(message = "La dirección es obligatoria")
+    private String address;
+
+    public CreateVenueRequest() {
+    }
+
     // Getters y Setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

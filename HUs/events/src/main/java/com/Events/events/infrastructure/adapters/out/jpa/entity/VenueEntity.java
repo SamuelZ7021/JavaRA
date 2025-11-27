@@ -1,18 +1,15 @@
 package com.Events.events.infrastructure.adapters.out.jpa.entity;
 
-
 import jakarta.persistence.*;
-
 import java.util.Set;
 import java.util.HashSet;
-
 
 @Entity
 @Table(name = "venues")
 public class VenueEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // CRÍTICO: Usar IDENTITY para MySQL
     private Long id;
 
     @Column(nullable = false, length = 100)
@@ -24,12 +21,11 @@ public class VenueEntity {
     @Column(length = 255)
     private String address;
 
-
     @OneToMany(mappedBy = "venue",
             cascade = CascadeType.ALL,
-            orphanRemoval = true, // si quitas un evento de la lista, se borra de la BD
+            orphanRemoval = true,
             fetch = FetchType.LAZY)
-    private Set<EventEntity> events = new HashSet<>(); // Inicializar la colección
+    private Set<EventEntity> events = new HashSet<>();
 
     public void addEvent(EventEntity event){
         events.add(event);
