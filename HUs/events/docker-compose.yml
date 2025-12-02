@@ -1,0 +1,37 @@
+services:
+  # Servicio de Base de Datos Real (MySQL)
+  mysqldb:
+    image: mysql:8.0
+    container_name: events-mysql-db
+    environment:
+      MYSQL_DATABASE: events_db
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: events_user
+      MYSQL_PASSWORD: events_password
+    ports:
+      - "3307:3307"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # Healthcheck para que la App espere a que la BD esté lista de verdad
+    healthcheck:
+     test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+     timeout: 20s
+     retries: 10
+
+  # Nuestra Aplicación Spring Boot
+  app:
+    build: .
+    container_name: events-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/events_db?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: events_user
+      SPRING_DATASOURCE_PASSWORD: events_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+    depends_on:
+      - mysqldb
+        #condition: service_healthy # Espera a que el healthcheck de MySQL pase
+
+volumes:
+  mysql_data:

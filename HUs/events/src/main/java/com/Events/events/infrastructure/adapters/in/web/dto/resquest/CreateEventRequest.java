@@ -23,22 +23,17 @@ public class CreateEventRequest {
     @NotBlank(message = "La categoría es obligatoria")
     private String category;
 
+    // En CreateEventRequest.java
+
+    // Eliminamos la 'X' del final
     @NotNull(message = "La fecha de inicio es obligatoria")
     @Future(message = "La fecha de inicio debe ser en el futuro")
-    // Usamos un patrón que acepta la 'Z' literal al final si viene de Swagger
-    // OJO: Esto asume que la fecha viene en UTC si trae Z.
-    // Jackson es inteligente: si le damos un patrón compatible, lo parsea.
-    // Al poner 'Z' entre comillas simples, le decimos "espera una letra Z literal".
-    // Pero mejor aún: NO USAR PATRÓN y dejar que @JsonFormat use ISO por defecto,
-    // pero forzamos a que Spring/Jackson acepte la Z convirtiéndola.
-    // LA SOLUCIÓN REAL: Usar java.time.Instant o ZonedDateTime para la entrada.
-    // Pero para no romper tu código JPA, usaremos LocalDateTime y le diremos a Jackson que ignore la zona.
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS", shape = JsonFormat.Shape.STRING) // <-- CAMBIO AQUÍ
     private LocalDateTime startDate;
 
     @NotNull(message = "La fecha de fin es obligatoria")
     @Future(message = "La fecha de fin debe ser en el futuro")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS", shape = JsonFormat.Shape.STRING) // <-- CAMBIO AQUÍ
     private LocalDateTime endDate;
 
     @NotNull(message = "El ID del venue es obligatorio")

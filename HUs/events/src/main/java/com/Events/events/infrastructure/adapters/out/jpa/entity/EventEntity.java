@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class EventEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // CRÍTICO: Usar IDENTITY para MySQL
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -26,6 +26,9 @@ public class EventEntity {
     @Column(nullable = false)
     private LocalDateTime startDate;
 
+    @Column(name = "end_date", nullable = false) // Agregamos endDate para consistencia con DTOs
+    private LocalDateTime endDate;
+
     @Column(length = 20)
     private String status = "ACTIVE";
 
@@ -36,6 +39,7 @@ public class EventEntity {
     public EventEntity() {
     }
 
+    // Getters y Setters manuales (o podrías usar Lombok @Data si prefieres)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
@@ -44,6 +48,10 @@ public class EventEntity {
     public void setCategory(String category) { this.category = category; }
     public LocalDateTime getStartDate() { return startDate; }
     public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
+    public LocalDateTime getEndDate() { return endDate; }
+    public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
     public VenueEntity getVenue() { return venue; }
     public void setVenue(VenueEntity venue) { this.venue = venue; }
 }
