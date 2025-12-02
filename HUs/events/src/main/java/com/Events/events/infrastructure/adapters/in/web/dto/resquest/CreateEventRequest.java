@@ -1,40 +1,46 @@
 package com.Events.events.infrastructure.adapters.in.web.dto.resquest;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.Events.events.infrastructure.adapters.in.web.validation.ValidDateRange;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
-@Schema(description = "DTO para la creación o actualización de un evento")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ValidDateRange(message = "La fecha de inicio debe ser anterior a la fecha de fin")
 public class CreateEventRequest {
 
-    @Schema(description = "Nombre del evento (debe ser único)", example = "Concierto de Rock")
-    @NotBlank(message = "El nombre no puede estar vacío")
-    @Size(min = 3, message = "El nombre debe tener al menos 3 caracteres")
+    @NotBlank(message = "El nombre es obligatorio")
     private String name;
 
-    @Schema(description = "Categoría del evento", example = "Música")
-    @NotBlank(message = "La categoría no puede estar vacía")
+    @NotBlank(message = "La categoría es obligatoria")
     private String category;
 
-    @Schema(description = "Fecha y hora de inicio (debe ser futura)", example = "2025-12-25T20:00:00")
     @NotNull(message = "La fecha de inicio es obligatoria")
     @Future(message = "La fecha de inicio debe ser en el futuro")
+    // Usamos un patrón que acepta la 'Z' literal al final si viene de Swagger
+    // OJO: Esto asume que la fecha viene en UTC si trae Z.
+    // Jackson es inteligente: si le damos un patrón compatible, lo parsea.
+    // Al poner 'Z' entre comillas simples, le decimos "espera una letra Z literal".
+    // Pero mejor aún: NO USAR PATRÓN y dejar que @JsonFormat use ISO por defecto,
+    // pero forzamos a que Spring/Jackson acepte la Z convirtiéndola.
+    // LA SOLUCIÓN REAL: Usar java.time.Instant o ZonedDateTime para la entrada.
+    // Pero para no romper tu código JPA, usaremos LocalDateTime y le diremos a Jackson que ignore la zona.
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", shape = JsonFormat.Shape.STRING)
     private LocalDateTime startDate;
 
-    @Schema(description = "ID del lugar (Venue) donde ocurrirá el evento", example = "1")
-    @NotNull(message = "El ID del lugar (venue) es obligatorio")
-    private Long venueId;
+    @NotNull(message = "La fecha de fin es obligatoria")
+    @Future(message = "La fecha de fin debe ser en el futuro")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime endDate;
 
-    // Getters y Setters
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
-    public LocalDateTime getStartDate() { return startDate; }
-    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
-    public Long getVenueId() { return venueId; }
-    public void setVenueId(Long venueId) { this.venueId = venueId; }
+    @NotNull(message = "El ID del venue es obligatorio")
+    private Long venueId;
 }

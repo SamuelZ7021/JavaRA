@@ -1,84 +1,101 @@
 package com.Events.events.exception;
 
-import org.springframework.dao.DataIntegrityViolationException; // <-- 1. Importar
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URI;
+import java.time.Instant;
+import java.util.UUID;
 
-@RestControllerAdvice // "Aconseja" a todos los RestControllers
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Objeto simple para respuestas de error
-    private record ErrorResponse(int status, String error, String message, LocalDateTime timestamp) {}
-
-    // MANEJO 404 (Ya existe)
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND) // Devuelve 404
-    public ErrorResponse handleResourceNotFound(ResourceNotFoundException ex) {
-        return new ErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                "Not Found",
-                ex.getMessage(),
-                LocalDateTime.now()
-        );
+    public ProblemDetail handleResourceNotFoundException(ResourceNotFoundException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setTitle("Recurso no encontrado");
+        problemDetail.setType(URI.create("https://api.events.com/errors/not-found"));
+        problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("traceId", UUID.randomUUID().toString());
+        return problemDetail;
     }
 
-    // MANEJO 400 (Ya existe) - Captura la excepción de @Valid
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // Devuelve 400
-    public Map<String, Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("error", "Bad Request");
-        response.put("timestamp", LocalDateTime.now());
-
-        // Mensajes de error descriptivos
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
-        );
-        response.put("validationErrors", errors); // Un mapa anidado con los fallos
-
-        return response;
-    }
-
-
-    /**
-     * Maneja nuestra excepción de negocio custom (Defensa 1).
-     * Se lanza desde EventServiceImpl cuando el nombre ya existe.
-     */
     @ExceptionHandler(DuplicateEventException.class)
-    @ResponseStatus(HttpStatus.CONFLICT) // Devuelve 409
-    public ErrorResponse handleDuplicateEvent(DuplicateEventException ex) {
-        return new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
-                "Conflict",
-                ex.getMessage(), // Mensaje claro: "Ya existe un evento con el nombre: X"
-                LocalDateTime.now()
-        );
+    public ProblemDetail handleDuplicateEventException(DuplicateEventException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("Conflicto de datos");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
     }
 
-    /**
-     * Maneja la excepción de la capa de base de datos (Defensa 2).
-     * Se lanza si violamos un constraint 'UNIQUE' o 'NOT NULL' en la DB.
-     */
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT) // Devuelve 409
-    public ErrorResponse handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        // El mensaje de 'ex.getMessage()' suele ser muy técnico (ej. "could not execute statement...").
-        // Damos un mensaje genérico pero claro.
-        return new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
-                "Conflict",
-                "Conflicto de integridad de datos. Es probable que un campo único esté duplicado.",
-                LocalDateTime.now()
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleValidationException(MethodArgumentNotValidException ex) {
+        StringBuilder errors = new StringBuilder();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ")
         );
+
+        // Si es un error a nivel de clase (DateRangeValidator)
+        if(ex.getBindingResult().getGlobalErrors().size() > 0) {
+            ex.getBindingResult().getGlobalErrors().forEach(error ->
+                    errors.append(error.getDefaultMessage()).append("; ")
+            );
+        }
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, errors.toString());
+        problemDetail.setTitle("Error de validación");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ProblemDetail handleBadCredentialsException(BadCredentialsException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "Credenciales inválidas");
+        problemDetail.setTitle("Error de autenticación");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ProblemDetail handleAccessDeniedException(AccessDeniedException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, "No tienes permisos para acceder a este recurso");
+        problemDetail.setTitle("Acceso denegado");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ProblemDetail handleExpiredJwtException(ExpiredJwtException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "El token ha expirado");
+        problemDetail.setTitle("Token expirado");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ProblemDetail handleJsonException(HttpMessageNotReadableException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "El cuerpo de la petición (JSON) es inválido o tiene un formato incorrecto");
+        problemDetail.setTitle("Error de formato JSON");
+        problemDetail.setProperty("timestamp", Instant.now());
+        // Útil para debug: ex.getMessage() te dirá exactamente qué campo falló al deserializar
+        // En producción podrías querer ocultarlo si revela demasiados detalles internos
+        problemDetail.setProperty("debugMessage", ex.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleGlobalException(Exception ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Ha ocurrido un error interno inesperado");
+        problemDetail.setTitle("Error interno del servidor");
+        problemDetail.setProperty("timestamp", Instant.now());
+        // En producción no mostrar el stacktrace en el detail
+        return problemDetail;
     }
 }
