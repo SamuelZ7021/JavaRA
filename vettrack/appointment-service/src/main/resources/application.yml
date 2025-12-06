@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: appointment-service
+
+  # Base de Datos
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vettrack_db
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  # JPA / Hibernate
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20
+
+  # Flyway
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+# ==========================================
+# ESTA ES LA SECCIÓN QUE TE FALTA 👇
+# ==========================================
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration: 86400000 # 24 horas
+
+# Configuración Cliente HTTP (Local)
+app:
+  client:
+    vet-availability-url: http://localhost:8081/availability
+
+---
+# Perfil Docker
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:postgresql://db:5432/vettrack_db
+
+# Configuración Cliente HTTP (Docker)
+app:
+  client:
+    vet-availability-url: http://vet-availability-mock:8080/availability
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus # Exponemos lo que pide el PDF
+  endpoint:
+    health:
+      show-details: always # Para ver si la DB está UP o DOWN, no solo "UP"
+  metrics:
+    tags:
+      application: ${spring.application.name} # Etiqueta útil para Grafana

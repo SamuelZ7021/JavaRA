@@ -1,0 +1,67 @@
+services:
+  # 1. Base de Datos (PostgreSQL)
+  # [cite_start]Fuente: [cite: 178] "db (Postgres recomendado)"
+  db:
+    image: postgres:16-alpine
+    container_name: vettrack-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432" # Expuesto para que puedas inspeccionar con DBeaver/IntelliJ
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: vettrack_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vettrack-network
+
+  # 2. Servicio Mock de Disponibilidad
+  # [cite_start]Fuente: [cite: 24] "vet-availability-mock-service"
+  # NOTA: Asume que crearemos una carpeta 'vet-availability-mock' con su propio Dockerfile
+  vet-availability-mock:
+    build:
+      context: ./vet-availability-mock
+      dockerfile: Dockerfile
+    container_name: vet-availability-mock
+    ports:
+      - "8081:8080" # Corre en puerto 8081 para no chocar con el principal
+    environment:
+      SERVER_PORT: 8080
+    networks:
+      - vettrack-network
+
+  # 3. Servicio Principal (Appointment Service)
+  # [cite_start]Fuente: [cite: 20] "appointment-service"
+  appointment-service:
+    build:
+      context: ./appointment-service
+      dockerfile: Dockerfile
+    container_name: appointment-service
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/vettrack_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      EXTERNAL_VET_AVAILABILITY_URL: http://vet-availability-mock:8080/availability
+    depends_on:
+      db:
+        condition: service_healthy
+      vet-availability-mock:
+        condition: service_started
+    networks:
+      - vettrack-network
+
+volumes:
+  postgres_data:
+
+networks:
+  vettrack-network:
+    driver: bridge
