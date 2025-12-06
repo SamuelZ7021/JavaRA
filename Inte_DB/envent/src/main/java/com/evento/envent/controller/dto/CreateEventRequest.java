@@ -21,8 +21,8 @@ public class CreateEventRequest {
     @Future(message = "El fecha de inicio debe ser en el dias antes del evento")
     private LocalDateTime startDate;
 
-    @NotBlank(message = "El lugar(venue) no puede estar vacío")
-    private String venueName;
+    @NotBlank(message = "El ID del lugar (venue) des obligatorio")
+    private Long venueId;
 
     public String getName() {
         return name;
@@ -48,11 +48,11 @@ public class CreateEventRequest {
         this.startDate = startDate;
     }
 
-    public String getVenueName() {
-        return venueName;
+    public Long getVenueId() {
+        return venueId;
     }
 
-    public void setVenueName(String venueName) {
-        this.venueName = venueName;
+    public void setVenueId(Long venueId) {
+        this.venueId = venueId;
     }
 }
