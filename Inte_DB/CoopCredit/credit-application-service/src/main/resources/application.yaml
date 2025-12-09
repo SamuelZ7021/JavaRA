@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: credit-application-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coopcredit_db
+    username: admin
+    password: adminpassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate # We use Flyway, so Hibernate should ONLY validate
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20 # Performance optimization for N+1
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+  # JWT Configuration (Placeholder for Phase 4)
+  security:
+    jwt:
+      secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # 1 day
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.springframework.security: INFO
+
+external:
+  risk-service:
+    url: http://localhost:8081
