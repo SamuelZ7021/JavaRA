@@ -1,7 +1,7 @@
 package com.coopcredit.creditapplication.domain.model;
 
 public enum Role {
-    ROLE_AFILIADO,
-    ROLE_ANALISTA,
-    ROLE_ADMIN
+    AFILIADO,
+    ANALISTA,
+    ADMIN
 }

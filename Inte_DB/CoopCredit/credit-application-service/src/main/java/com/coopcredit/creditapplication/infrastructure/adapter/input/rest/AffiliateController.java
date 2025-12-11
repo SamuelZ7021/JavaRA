@@ -21,7 +21,7 @@ public class AffiliateController {
     private final AffiliateMapper affiliateMapper;
 
     @GetMapping("/me")
-    @PreAuthorize("hasRole('ROLE_AFILIADO')")
+    @PreAuthorize("hasRole('ROLE_AFILIADO)")
     public ResponseEntity<AffiliateResponse> getMyProfile(Authentication authentication) {
         String username = authentication.getName();
         Affiliate domain = affiliateUseCase.getAffiliateByUsername(username);

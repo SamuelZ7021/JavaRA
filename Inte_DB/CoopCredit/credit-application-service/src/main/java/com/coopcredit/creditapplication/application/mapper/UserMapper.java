@@ -11,9 +11,9 @@ import org.mapstruct.ValueMapping;
 public interface UserMapper {
     UserEntity toEntity(User domain);
     User toDomain(UserEntity entity);
-    @ValueMapping(source = "ROLE_AFILIADO", target = "ROLE_AFILIADO")
-    @ValueMapping(source = "ROLE_ANALISTA", target = "ROLE_ANALISTA")
-    @ValueMapping(source = "ROLE_ADMIN", target = "ROLE_ADMIN")
+    @ValueMapping(source = "AFILIADO", target = "ROLE_AFILIADO")
+    @ValueMapping(source = "ANALISTA", target = "ROLE_ANALISTA")
+    @ValueMapping(source = "ADMIN", target = "ROLE_ADMIN")
     UserEntity.Role mapToEntityRole(Role role);
     @InheritInverseConfiguration
     Role mapToDomainRole(UserEntity.Role role);

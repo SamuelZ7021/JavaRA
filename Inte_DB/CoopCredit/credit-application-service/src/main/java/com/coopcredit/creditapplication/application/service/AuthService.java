@@ -27,16 +27,28 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        // 1. Create User (Security)
+
+        // 1. Determinar el Rol (Lógica Dinámica)
+        UserEntity.Role role = UserEntity.Role.ROLE_AFILIADO;
+
+        if (request.getRole() != null && !request.getRole().isEmpty()) {
+            try {
+                role = UserEntity.Role.valueOf(request.getRole());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Rol inválido recibido: " + request.getRole() + ". Asignando ROLE_AFILIADO.");
+            }
+        }
+
+        // 2. Crear Usuario (Security)
         var user = UserEntity.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(UserEntity.Role.ROLE_ADMIN) // Default role for registration
+                .role(role)
                 .build();
 
         var savedUser = userRepository.save(user);
 
-        // 2. Create Affiliate Profile (Business)
+
         var affiliate = AffiliateEntity.builder()
                 .user(savedUser)
                 .fullName(request.getFullName())
@@ -48,7 +60,7 @@ public class AuthService {
 
         affiliateRepository.save(affiliate);
 
-        // 3. Generate Token
+        // 4. Generar Token
         var jwtToken = jwtService.generateToken(user);
         return AuthResponse.builder()
                 .token(jwtToken)
